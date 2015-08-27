@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>How to Moo</title>
+    <title>How to CPAN</title>
     <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
     <meta name="author" content="Hakim El Hattab">
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -30,8 +30,8 @@
 
 
         <section>
-          <h1>Introduction<br>to Moo</h1>
-          <h3>Perl objects with Moo</h3>
+          <h2>Publish your first CPAN module</h2>
+          <h2>in &lt; 5 minutes</h2>
           <p>
             <small><a href="http://kablamo.org">Eric Johnson</a> / <a href="http://twitter.com/kablamo_">@kablamo_</a></small>
           </p>
@@ -39,677 +39,259 @@
 
 
         <section>
-          <h2>About Moo</h2>
-          <ul>
-            <li class="fragment">OO sugar</li>
-            <li class="fragment">Extensible - see MooX:: on MetaCPAN</li>
-            <li class="fragment">Community approved - used in 698 CPAN modules</li>
-            <li class="fragment">Created by Matt Trout (MST), first release in 2010</li>
-            <li class="fragment">(Moose is used in 2320 CPAN modules)</li>
-            <li class="fragment">(Moose was created by Stevan Little, first release in 2006)</li>
-          </ul>
-        </section>
-
-
-        <section>
-          <h2>Why Moo</h2>
-          <ul>
-            <li class="fragment">Matt liked Moose, but</li>
-            <li class="fragment">Sometimes people refuse to use Moose</li>
-            <ol>
-              <li class="fragment">XS dependencies</li>
-              <li class="fragment">Slow startup time</li>
-              <li class="fragment">Some people are afraid of dependencies</li>
-            </ol>
-            <li class="fragment">Matt wanted an object system for all the places where Moose would not go</li>
-          </ul>
-        </section>
-
-
-        <section>
-          <h2>Moo features</h2>
+          <h2>How to publish to CPAN</h2>
+          <p>- A high level overview -</p>
           <ol>
-            <li class="fragment">Moo is pure Perl (no XS)</li>
-            <li class="fragment">Moo has a fast startup time</li>
-            <li class="fragment">Moo has about 9 dependencies</li>
-            <li class="fragment">Moo is compatible with Moose (and Mouse)</li>
-            <ul>
-              <li class="fragment">Compatible syntax</li>
-              <li class="fragment">Moo objects work with Moose roles</li>
-              <li class="fragment">Moose objects work with Moo roles</li>
-              <li class="fragment">If you need introspection, Moo can inflate to Moose</li>
-            </ul>
+            <li>Create a PAUSE.perl.org account</li>
+            <li>Use Minilla to create a distribution (.tar.gz)</li>
+            <li>Use Carton to manage dependencies for your code</li>
+            <li>Use Minilla to upload your distribution (.tar.gz) to PAUSE</li>
           </ol>
         </section>
 
 
         <section>
-          <h2>Moo classes</h2>
-          <ul>
-            <li>Moo classes have</li>
-            <ul>
-              <li>Constructor/destructor</li>
-              <li>Attributes</li>
-              <li>Methods</li>
-              <li>Method modifiers</li>
-              <li style="text-decoration:line-through">Introspection</li>
-            </ul>
-            <li>Moo classes do roles</li>
-          </ul>
-        </section>
-
-
-        <section>
-          <h2>use Moo</h2>
-          <pre><code contenteditable>
-use Moo;
-          </code></pre>
-          <p>is equivalent to</p>
-          <pre><code contenteditable>
-use strict;                   # strict vars, refs, subs
-use warnings;                 # in Moo v2+
-no indirect;                  # can't do `my $alien = new Alien;`
-no multidimensional;          # can't do `$hash{1,2}`
-no bareword::filehandles;     # can't do `open FH, $filename`
-use base 'Moo::Object';       # provides new(), etc
-          </code></pre>
-          <p>also <code>use Moo</code> imports some methods: </p>
-          <p>extends(), with(), has(), before(), around(), and after()</p>
-        </section>
-
-        <section>
-          <h2>Don't use namespace::autoclean</h2>
-          <p>It inflates your Moo class to a Moose class</p>
-        </section>
-
-
-        <section>
-          <h2>Object construction</h2>
-          <p>&nbsp;</p>
-          <p><code>my $alien = Alien->new(@args)</code></p>
-          <p>&nbsp;</p>
+          <h2>How to publish to CPAN</h2>
+          <p>- A high level overview -</p>
           <ol>
-            <li class="fragment"><code>new()</code> calls <code>Alien->BUILDARGS(@args)</code></li>
-            <li class="fragment"><code>new()</code> instantiates object, creating <code>$self</code></li>
-            <li class="fragment"><code>new()</code> calls <code>BUILD($self)</code></li>
-            <li class="fragment"><code>new()</code> returns <code>$self</code></li>
+            <li style="color: greenyellow">Create a PAUSE.perl.org account</li>
+            <li>Use Minilla to create a distribution (.tar.gz)</li>
+            <li>Use Carton to manage dependencies for your code</li>
+            <li>Use Minilla to upload your distribution (.tar.gz) to PAUSE</li>
           </ol>
         </section>
 
 
         <section>
-          <h2>BUILDARGS</h2>
-          <p>is called <i>before</i> instantiation</p>
-          <pre><code contenteditable>
-package Alien;
-use Moo;
-
-sub BUILDARGS {
-    my ($class, @args) = @_;
-   
-    # -- modify @args here --
-   
-    return { @args };
-}
-          </code></pre>
-          <p class="fragment">In Moose you need to call SUPER at the end</p>
-        </section>
-
-
-        <section>
-          <h2>BUILD</h2>
-          <p>is called <i>after</i> instantiation</p>
-          <pre><code contenteditable>
-package Alien;
-use Moo;
-
-sub BUILD {
-    my ($self, $args) = @_;
-   
-    # -- additional validation or logging here --
-}
-          </code></pre>
-          <p class="fragment">The return value is ignored</p>
-        </section>
-
-
-        <section>
-          <h2>Best practice</h2>
-          
+          <h2>PAUSE</h2>
           <ul>
-            <li class="fragment">Validation and logging are fine in BUILDARGS or BUILD</li>
-            <li class="fragment">Don't do work in BUILDARGS or BUILD</li>
-            <ul>
-              <li class="fragment">It slows down object construction</li>
-              <li class="fragment">It violates the Principle of Least Astonishment.  Users expect <code>new()</code> to just create an object.</li>
-            </ul>
+            <li class="fragment">PAUSE is the Perl Authors Upload SErver</li>
+            <li class="fragment">You need a PAUSE account to upload/manage CPAN modules</li>
+            <li class="fragment">MetaCPAN.org uses PAUSE accounts for authentication</li>
+            <li class="fragment">When you upload a module, you will upload it to PAUSE</li>
+            <li class="fragment">After you upload a module to PAUSE, its indexed, and then distributed to CPAN mirrors</li>
           </ul>
         </section>
 
 
         <section>
-          <h2>DEMOLISH</h2>
-          <p>is called when the object is destroyed</p>
-          <pre><code contenteditable>
-package Alien;
-use Moo;
-
-sub DEMOLISH {
-    my ($self, $in_global_destruction) = @_;
-   
-    $self->dbh->disconnect;
-}
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Object destruction</h2>
+          <h2>Create a PAUSE account</h2>
+          <p class="fragment">Go to <a href="http://pause.perl.org">pause.perl.org</a></p>
           <ol>
-            <li class="fragment"><code>my $alien = Alien->new(@args)</code></li>
-            <li class="fragment">Moo creates <code>$alien->DESTROY()</code></li>
-            <li class="fragment"><code>undef $alien</code></li>
-            <li class="fragment">Perl calls <code>$alien->DESTROY()</code></li>
-            <li class="fragment"><code>$alien->DESTROY()</code> calls <code>$alien->DEMOLISH()</code> at every level of inheritance</li>
+            <li class="fragment">Click 'Create account'</li>
+            <li class="fragment">Do the things</li>
           </ol>
         </section>
 
 
         <section>
-          <h2>Attributes</h2>
+          <h2>How to publish to CPAN</h2>
+          <p>- A high level overview -</p>
+          <ol>
+            <li style="color: green">Create a PAUSE.perl.org account</li>
+            <li style="color: greenyellow">Use Minilla to create a distribution (.tar.gz)</li>
+            <li>Use Carton to manage dependencies for your code</li>
+            <li>Use Minilla to upload your distribution (.tar.gz) to PAUSE</li>
+          </ol>
         </section>
 
 
         <section>
-          <h2>Read only vs read/write</h2>
-          <pre><code contenteditable>
-package Alien;
-use Moo;
-
-has eyes      => (is => 'rw');
-has nostrils  => (is => 'ro');
-          </code></pre>
-          <pre><code contenteditable>
-my $alien = Alien->new( nostrils => 20 );
-$alien->eyes(10);     # succeeds
-$alien->nostrils(10); # dies
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Best practice</h2>
+          <h2>Minilla</h2>
           <ul>
-            <li class="fragment">Making attributes mutable means more complexity in your code</li>
-            <li class="fragment">Start with <code>ro</code> attributes</li>
-            <li class="fragment">Convert attributes to <code>rw</code> when you need that</li>
+            <li class="fragment">Minilla is a kiaju -- the first of several young Godzillas</li>
+            <li class="fragment">A simple alternative to Dist::Zilla</li>
+            <li class="fragment">Not extensible</li>
+            <li class="fragment">Created by Tokuhirom</li>
           </ul>
         </section>
 
 
         <section>
-          <h2>Default vs builders</h2>
+          <h2>Create a new project with Minilla</h2>
           <pre><code contenteditable>
-package Alien;
-use Moo;
-
-has eyes     => (is => 'ro', default => sub { 5 });
-has nostrils => (is => 'ro', builder => '_build_nostrils');
-
-# Perlism: methods that start with _ are private
-sub _build_nostrils { 5 }
+cpanm Minilla
+minil new Space::Cowboy
           </code></pre>
         </section>
 
 
         <section>
-          <h2>Best practice</h2>
+          <h2>minil new</h2>
+          <p>generated 9 boiler plate files</p>
+          <pre><code contenteditable>
+$ tree Space-Cowboy
+.
+├── Build.PL            # script to install Space::Cowboy
+├── Changes             # changes for each release
+├── cpanfile            # dependencies
+├── lib
+│   └── Space
+│       └── Cowboy.pm
+├── LICENSE
+├── META.json           # meta data about the module for metacpan
+├── minil.toml          # config file for minilla
+├── README.md           # used by Github
+└── t
+    └── 00_compile.t   
+
+3 directories, 9 files
+          </code></pre>
+        </section>
+
+
+        <section>
+          <h2>How to publish to CPAN</h2>
+          <p>- A high level overview -</p>
+          <ol>
+            <li style="color: green">Create a PAUSE.perl.org account</li>
+            <li style="color: green">Use Minilla to create a distribution (.tar.gz)</li>
+            <li style="color: greenyellow">Use Carton to manage dependencies for your code</li>
+            <li>Use Minilla to upload your distribution (.tar.gz) to PAUSE</li>
+          </ol>
+        </section>
+
+
+        <section>
+          <h2>Carton</h2>
           <ul>
-            <li class="fragment">Use default for very simple defaults</li>
-            <li class="fragment">Use builder for everything else</li>
-            <ul>
-              <li class="fragment">Builders can be overridden and method modified</li>
-              <li class="fragment">Roles can require builders</li>
-            </ul>
-            <li class="fragment">Builders should be private</li>
+            <li class="fragment">Created by Miyagawa</li>
+            <li class="fragment">Carton installs and tracks dependencies</li>
+            <li class="fragment">Similar to bundler (ruby) or pip (python)</li>
+            <li class="fragment">Installs dependencies to the './local' directory</li>
+            <li class="fragment">You create a <a href="http://metacpan.org/cpanfile">cpanfile</a> to list your dependencies</li>
+            <li class="fragment">Carton generates a cpanfile.snapshot which enables other developers to use the exact same deps</li>
+            </li>
           </ul>
         </section>
 
 
         <section>
-          <h2>Lazy attributes</h2>
-          <pre><code contenteditable>
-has tentacles => (is => 'lazy');
-          </code></pre>
-          <p>is equivalent to</p>
-          <pre><code contenteditable>
-has tentacles => (is => 'ro', lazy => 1, builder => '_build_tentacles');
-          </code></pre>
-        </section>
-
-        <section>
-          <h2>Moo vs Moose</h2>
-          <p>Use MooseX::AttributeShortcuts to get support for <code>is => 'lazy'</code> in Moose</p>
+            <h2>Install Carton</h2>
+            <pre><code contenteditable>
+cpanm Carton
+            </code></pre>
         </section>
 
 
         <section>
-          <h2>Best practice</h2>
-          <ul>
-            <li class="fragment">Lazy attributes are the best - use them as often as you can</li>
-            <li class="fragment">Because defaults are generated during object construction which slows down construction</li>
-            <li class="fragment">The user might not need that attribute so why waste time setting a default</li>
-          </ul>
-        </section>
-
-
-        <section>
-          <h2>Attribute initialization order</h2>
-          <p>is unpredictable</p>
+          <h2>cpanfile example</h2>
           <pre><code contenteditable>
-package Alien;
-use Moo;
-use Tentacle;
+requires Moo,     '0.2000';
+requires Plack,   '== 0.9980';
+requires Starman, '>= 0.2000';
 
-has tentacle_count => (is => 'ro', default => sub { 5 });
-has tentacles      => (is => 'ro', builder => '_build_tentacles');
+on test => sub {
+    requires 'Test::More';
+};
 
-sub _build_tentacles { 
-  my $self = shift;
-  my @tentacles;
-
-  push @tentacles, Tentacle->new() for (1..$self->tentacle_count);
-
-  return \@tentacles;
-}
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Bug fixed</h2>
-          <pre><code contenteditable>
-package Alien;
-use Moo;
-use Tentacle;
-
-has tentacles      => (is => 'lazy');
-has tentacle_count => (is => 'ro', default => sub { 5 });
-
-sub _build_tentacles { 
-  my $self = shift;
-  my @tentacles;
-
-  push @tentacles, Tentacle->new() for (1..$self->tentacle_count);
-
-  return \@tentacles;
-}
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Types</h2>
-          <ul>
-            <li class="fragment">No solution that worked with both Moo and Moose until recently</li>
-            <li class="fragment">Type::Tiny has quickly become the community favorite</li>
-            <li class="fragment">Works with Moo</li>
-            <li class="fragment">Works with Moose</li>
-            <li class="fragment">Works with Mouse</li>
-          </ul>
-        </section>
-
-
-        <section>
-          <h2>Type::Tiny</h2>
-          <pre><code contenteditable>
-use Types::URI -all;
-has uri => (is => 'ro', isa => Uri);
-
-use Types::Standard -all;
-has is_from_mars => (is => 'ro', isa => Bool);
-has tentacles    => (is => 'ro', isa => ArrayRef[InstanceOf["Tentacle"]]);
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Building a type library</h2>
-          <pre><code contenteditable>
-package MyCompany::Types;
-use Type::Library -base;
-use Type::Utils -all;
-
-BEGIN { extends "Types::Standard" };
- 
-declare "PurpleTentacles",
-     as ArrayRef[InstanceOf["Tentacles"]],
-  where {
-            my $tentacles = $_;
-
-            for my $tentacle (@$tentacles) {
-                return 0 if $tentacle->color ne "purple";
-            }
-
-            return 1;
-        };
-
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>How to use your type library</h2>
-          <pre><code contenteditable>
-use MyCompany::Types -all;
-has tentacles => (is => 'ro', isa => PurpleTentacles);
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Coercions</h2>
-          <p>Unlike Moose, coercions are separate from type checking</p>
-          <p>No solution that worked with both Moose and Moo until recently</p>
-          <pre><code contenteditable>
-package Client;
-use Moo;
-use URI;
-
-has uri => (is => 'ro', coerce => \&string_to_uri );
-
-sub string_to_uri {
-  my $value = shift;
-  return $value if ref $value eq 'URI'
-  return URI->new($value);
-}
-          </code></pre>
-          <pre><code contenteditable>
-my $client = Client->new( uri => 'http://example.com' );
-$client->uri->host;  # returns example.com
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Coercions with Type::Tiny</h2>
-          <p>Type::Tiny coercions come packaged with types (like in Moose)</p>
-          <pre><code contenteditable>
-package Client;
-use Moo;
-use Types::URI -all;
-
-has uri => (is => 'ro', isa => URI, coerce => 1);
-          </code></pre>
-          <pre><code contenteditable>
-my $client = Client->new( uri => 'http://example.com' );
-$client->uri->host;  # returns example.com
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Adding coercions<br>to your type library</h2>
-          <pre><code contenteditable>
-package MyCompany::Types;
-use Type::Library -base;
-use Type::Utils -all;
-
-BEGIN { extends "Types::Standard" };
- 
-declare "Greeting",
-     as "Str",
-  where { $_ =~ /Take me to your leader.$/ };
-
-coerce "Greeting",
-  from "Str",
-   via { $_ .= '  Take me to your leader.' };
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Type::Tiny has many features</h2>
-          <p>Too many for me to cover here.  See also:</p>
-          <ul>
-            <li class=fragment><a href=https://metacpan.org/pod/Type::Tiny::Manual::UsingWithMoo>Type::Tiny::Manual::UsingWithMoo</a></li>
-            <li class=fragment><a href=https://metacpan.org/pod/Types::Standard>Types::Standard</a></li>
-            <li class=fragment><a href=https://metacpan.org/pod/Type::Tiny::Manual::Utils>Type::Tiny::Manual::Utils</a></li>
-            <li class=fragment><a href=https://metacpan.org/pod/Type::Tiny::Manual::Libraries>Type::Tiny::Manual::Libraries</a></li>
-            <li class=fragment><a href=https://metacpan.org/pod/Type::Tiny::Manual::Coercions>Type::Tiny::Manual::Coercions</a></li>
-            <li class=fragment><a href=https://metacpan.org/search?q=Types>Search for Types on MetaCPAN</a></li>
-          </ul>
-        </section>
-
-
-        <section>
-          <h2>Delegation</h2>
-          <pre><code contenteditable>
-package ConfigFile;
-use Moo;
-use Path::Class;
-
-has _file => (
-  is      => 'ro', 
-  handles => [qw/spew slurp/],
-  default => sub { Path::Class::file('.configuration') },
-);
-          </code></pre>
-          <pre><code contenteditable>
-my $config_file = ConfigFile->new();
-$config_file->slurp(); # read in file contents
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Delegation</h2>
-          <pre><code contenteditable>
-package ConfigFile;
-use Moo;
-use Path::Class;
-
-has _file => (
-  is      => 'ro', 
-  handles => { write => 'spew', read => 'slurp'},
-  default => sub { Path::Class::file('.configuration') },
-);
-          </code></pre>
-          <pre><code contenteditable>
-my $config_file = ConfigFile->new();
-$config_file->read(); # slurp in file contents
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Triggers</h2>
-          <p>A code reference run after an attribute is set</p>
-          <pre><code contenteditable>
-has cowboy => (
-  is      => 'ro', 
-  trigger => sub { warn "cowboy attr set"; }
-);
-          </code></pre>
-        </section>
-
-
-        <section>
-          <h2>Method modifiers: before</h2>
-          <pre><code contenteditable>
-package Brontosaurus;
-use Moo;
-extends 'Dinosaur';
-
-before eat => sub {
-  my ($self, $food) = @_;
-
-  die "bad params" if $food eq 'meat';
+on develop => sub {
+    recommends 'Dist::Zilla'; 
 };
           </code></pre>
-          <p class="fragment">Receives same params as the original method</p>
-          <p class="fragment">Return value is ignored</p>
-          <p class="fragment">Good for adding extra validation</p>
-        </section>
-
-
-        <section>
-          <h2>Method modifiers: after</h2>
-          <pre><code contenteditable>
-package Brontosaurus;
-use Moo;
-extends 'Dinosaur';
-
-after eat => sub {
-  my ($self, $food) = @_;
-
-  $self->log->warning("Brontosaurus does not like to eat $food")
-    if $food eq 'meat';
-};
-          </code></pre>
-          <p class="fragment">Receives same params as the original method</p>
-          <p class="fragment">Return value is ignored</p>
-          <p class="fragment">Good for logging/debugging</p>
-        </section>
-
-
-        <section>
-          <h2>Method modifiers: around</h2>
-          <pre><code contenteditable>
-package Brontosaurus;
-extends 'Dinosaur';
-
-around eat => sub {
-  my ($orig, $self, $food) = @_;
-  uc $orig->($self, $food);
-};
-          </code></pre>
-          <p class="fragment">Called instead of the original method</p>
-        </section>
-
-
-        <section>
-          <h2>Roles</h2>
           <ul>
-            <li class="fragment">Similar to Ruby mixins or Java interfaces</li>
-            <li class="fragment">Can have attributes, methods, and do other roles</li>
-            <li class="fragment">Roles add behavior and/or state to a class</li>
+            <li class="fragment">You can specify minimum versions</li>
+            <li class="fragment">You CAN pin a version</li>
           </ul>
         </section>
 
 
         <section>
-          <h2>Roles example</h2>
+          <h2>Using Carton</h2>
           <pre><code contenteditable>
-package Searchable;
-use Moo::Role;
-
-# state
-has 'number_of_results' => (is => 'ro', default => sub { 5 }); 
-
-# behavior
-sub search { ... }
-          </code></pre>
-          <pre><code contenteditable>
-package Thing;
-use Moo;
-with qw/Searchable/;
-          </code></pre>
-          <pre><code contenteditable>
-my $thing = Thing->new();
-$thing->search();
+carton                       # installs dependencies to ./local
+carton exec bin/space-cowboy # adds ./local to your $PERL5LIB
           </code></pre>
         </section>
 
 
         <section>
-          <h2>Roles Terminology</h2>
+          <h2>Bash environment shortcuts</h2>
+          <pre><code contenteditable>
+export PERL5LIB=./local/lib/perl5:./lib:$PERL5LIB
+export PATH=./local/bin:$PATH
+          </code></pre>
+        </section>
+
+
+        <section>
+          <h2>How to publish to CPAN</h2>
+          <p>- A high level overview -</p>
+          <ol>
+            <li style="color: green">Create a PAUSE.perl.org account</li>
+            <li style="color: green">Use Minilla to create a distribution (.tar.gz)</li>
+            <li style="color: green">Use Carton to manage dependencies for your code</li>
+            <li style="color: greenyellow">Use Minilla to upload your distribution (.tar.gz) to PAUSE</li>
+          </ol>
+        </section>
+
+
+        <section>
+            <h2>Write your code, then release</h2>
+          <pre><code contenteditable>
+# hack
+# hack
+# hack
+vi lib/Space/Cowboy.pm t/space-cowboy.t cpanfile
+git commit -a
+
+# release
+carton exec minil release
+          </code></pre>
+        </section>
+
+
+        <section>
+          <h2>minil release</h2>
+          <p>...does the following awesome things</p>
           <ul>
-            <li class="fragment">Classes <i>do</i> or <i>consume</i> roles</li>
-            <li class="fragment">Roles are <i>composed</i> into classes</li>
+              <li class="fragment">checks if you forgot to git checkin any files</li>
+              <li class="fragment">runs your tests</li>
+              <li class="fragment">runs extra tests</li>
+              <li class="fragment">generates a README.md from your pod</li>
+              <li class="fragment">generates a META.json file for MetaCPAN.org</li>
+              <li class="fragment">generates a BUILD.pl file for MetaCPAN.org</li>
+              <li class="fragment">builds a distribution (tar.gz)</li>
+              <li class="fragment">uploads your distribution (tar.gz) to CPAN</li>
+              <li class="fragment">tags your release in git</li>
+              <li class="fragment">pushes your code to github</li>
           </ul>
-        </section>
-
-
-        <section>
-          <h2>requires</h2>
-          <pre><code contenteditable>
-package Searchable;
-use Moo::Role;
-
-requires 'search_engine';
-
-sub search { 
-  my ($self, $query) = @_;
-  my $json = $self->search_engine->search($query);
-  return JSON->new->utf8->decode($json);
-}
-          </code></pre>
-          <pre><code contenteditable>
-package Thing;
-use Moo;
-with qw/Searchable/;
-
-sub search_engine {
-  return Bing->new();
-}
           </code></pre>
         </section>
 
 
         <section>
-          <h2>Zen of Roles</h2>
-          <ul>
-            <li class="fragment">Roles are shareable between unrelated classes</li>
-            <li class="fragment">Roles are what a class <i>does</i> not what a class <i>is</i></li>
-            <li class="fragment">Roles add <i>functionality</i>, inheritance <i>specializes</i></li>
-          </ul>
-        </section>
-
-
-        <section>
-          <h2>Suggestions for naming roles</h2>
-          <ul>
-            <li>Might end in 'able'</li>
-            <ul>
-              <li>Printable</li>
-              <li>Searchable</li>
-            </ul>
-            <li>Might start with 'Has' or 'Is' or 'Can'</li>
-            <ul>
-              <li>HasEngine</li>
-              <li>IsFragile</li>
-              <li>CanBreakDance</li>
-            </ul>
-          </ul>
-        </section>
-
-
-        <section>
-          <h2>Roles vs Inheritance</h2>
-          <ul>
-            <li class="fragment">Brontosaurus <i>isa</i> Dinosaur</li>
-            <li class="fragment">Brontosaurus <i>does</i> ForagingForPlants (behavior)</li>
-            <li class="fragment">Other Dinosaurs also do the ForagingForPlants role</li>
-            <li class="fragment">Brontosaurus <i>does</i> HasLongTail (state)</li>
-          </ul>
-        </section>
-
-
-        <section>
-          <h2>Role consumption is introspectable</h2>
+            <h2>Quick summary: first release</h2>
           <pre><code contenteditable>
-print "hi" if Thing->does('Searchable');
+# install stuff
+cpanm Carton
+cpanm Minilla
+
+# create new project
+minil new Space::Cowboy
+cd Space-Cowboy
+git commit -m 'initial commit'
+
+# hack, hack, hack
+vi lib/Space/Cowboy.pm t/space-cowboy.t cpanfile
+git commit -a
+
+# release
+carton exec minil release
           </code></pre>
         </section>
 
 
         <section>
-          <h2>Moo roles vs Moose roles</h2>
-          <ul>
-            <li class="fragment">In Moose you can apply roles to objects dynamically</li>
-            <li class="fragment">In Moo you can't</li>
-          </ul>
+            <h2>Quick summary: followup releases</h2>
+          <pre><code contenteditable>
+# hack, hack, hack
+vi ...
+git commit ...
+
+# release
+carton exec minil release
+          </code></pre>
         </section>
 
 
@@ -719,22 +301,10 @@ print "hi" if Thing->does('Searchable');
 
 
         <section>
-          <h2>See also</h2>
+          <h2>These slides are online at</h2>
           <ul>
-            <li>Dave Rolsky's <a href="http://www.houseabsolute.com/presentations/intro-moose-class/index.html">Intro to Moose talk</a> (slides)</li> from which this talk takes a great deal of inspiration
-            <li>Matt Trout's <a href="https://www.youtube.com/watch?v=MzTWTLaUZrg">Moo presentation</a> (video) for Mongueuers de Perl</li>
-            <li>Matt Trout's <a href="https://www.youtube.com/watch?v=GzyvPqkNKYY">Moo guts presentation</a> (video) at YAPC NA</li>
-            <li>Michael Hick's <a href="http://www.pl-enthusiast.net/2014/08/05/type-safety/">What is type safety?</a></li>
-            <li>#moose on irc.perl.org</li>
-          </ul>
-        </section>
-
-
-        <section>
-          <h2>Find these slides online at</h2>
-          <ul>
-            <li><a href="http://kablamo.org/slides-intro-to-moo">kablamo.org/slides-intro-to-moo</a></li>
-            <li><a href="https://github.com/kablamo/slides-intro-to-moo">github.com/kablamo/slides-intro-to-moo</a></li>
+            <li><a href="http://kablamo.org/slides-minilla">kablamo.org/slides-minilla</a></li>
+            <li><a href="https://github.com/kablamo/slides-minilla">github.com/kablamo/slides-minilla</a></li>
           </ul>
         </section>
 
