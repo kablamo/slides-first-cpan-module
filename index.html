@@ -31,7 +31,7 @@
 
         <section>
           <h2>Publish your first CPAN module</h2>
-          <h2>in &lt; 5 minutes</h2>
+          <h2>in less than 5 minutes</h2>
           <p>
             <small><a href="http://kablamo.org">Eric Johnson</a> / <a href="http://twitter.com/kablamo_">@kablamo_</a></small>
           </p>
@@ -40,7 +40,6 @@
 
         <section>
           <h2>How to publish to CPAN</h2>
-          <p>- A high level overview -</p>
           <ol>
             <li>Create a PAUSE.perl.org account</li>
             <li>Use Minilla to create a distribution (.tar.gz)</li>
@@ -52,7 +51,6 @@
 
         <section>
           <h2>How to publish to CPAN</h2>
-          <p>- A high level overview -</p>
           <ol>
             <li style="color: greenyellow">Create a PAUSE.perl.org account</li>
             <li>Use Minilla to create a distribution (.tar.gz)</li>
@@ -85,8 +83,17 @@
 
 
         <section>
+          <h2>Save your credentials in ~/.pause</h2>
+          <pre><code contenteditable class="bash">
+user &lt;YOUR-PAUSE-ID&gt;
+password &lt;your-password&gt;
+          </code></pre>
+          <p>This will be used by Minilla to upload your code to CPAN</p>
+        </section>
+
+
+        <section>
           <h2>How to publish to CPAN</h2>
-          <p>- A high level overview -</p>
           <ol>
             <li style="color: green">Create a PAUSE.perl.org account</li>
             <li style="color: greenyellow">Use Minilla to create a distribution (.tar.gz)</li>
@@ -109,7 +116,7 @@
 
         <section>
           <h2>Create a new project with Minilla</h2>
-          <pre><code contenteditable>
+          <pre><code contenteditable class="bash">
 cpanm Minilla
 minil new Space::Cowboy
           </code></pre>
@@ -119,7 +126,7 @@ minil new Space::Cowboy
         <section>
           <h2>minil new</h2>
           <p>generated 9 boiler plate files</p>
-          <pre><code contenteditable>
+          <pre><code contenteditable class="bash">
 $ tree Space-Cowboy
 .
 ├── Build.PL            # script to install Space::Cowboy
@@ -142,7 +149,6 @@ $ tree Space-Cowboy
 
         <section>
           <h2>How to publish to CPAN</h2>
-          <p>- A high level overview -</p>
           <ol>
             <li style="color: green">Create a PAUSE.perl.org account</li>
             <li style="color: green">Use Minilla to create a distribution (.tar.gz)</li>
@@ -176,7 +182,7 @@ cpanm Carton
 
         <section>
           <h2>cpanfile example</h2>
-          <pre><code contenteditable>
+          <pre><code contenteditable class="perl">
 requires Moo,     '0.2000';
 requires Plack,   '== 0.9980';
 requires Starman, '>= 0.2000';
@@ -191,23 +197,23 @@ on develop => sub {
           </code></pre>
           <ul>
             <li class="fragment">You can specify minimum versions</li>
-            <li class="fragment">You CAN pin a version</li>
+            <li class="fragment">You can pin a version</li>
           </ul>
         </section>
 
 
         <section>
           <h2>Using Carton</h2>
-          <pre><code contenteditable>
+          <pre><code contenteditable class="bash">
 carton                       # installs dependencies to ./local
-carton exec bin/space-cowboy # adds ./local to your $PERL5LIB
+carton exec bin/space-cowboy # adds ./local to $PERL5LIB
           </code></pre>
         </section>
 
 
         <section>
           <h2>Bash environment shortcuts</h2>
-          <pre><code contenteditable>
+          <pre><code contenteditable class="bash">
 export PERL5LIB=./local/lib/perl5:./lib:$PERL5LIB
 export PATH=./local/bin:$PATH
           </code></pre>
@@ -216,7 +222,6 @@ export PATH=./local/bin:$PATH
 
         <section>
           <h2>How to publish to CPAN</h2>
-          <p>- A high level overview -</p>
           <ol>
             <li style="color: green">Create a PAUSE.perl.org account</li>
             <li style="color: green">Use Minilla to create a distribution (.tar.gz)</li>
@@ -228,7 +233,7 @@ export PATH=./local/bin:$PATH
 
         <section>
             <h2>Write your code, then release</h2>
-          <pre><code contenteditable>
+          <pre><code contenteditable class="bash">
 # hack
 # hack
 # hack
@@ -245,14 +250,14 @@ carton exec minil release
           <h2>minil release</h2>
           <p>...does the following awesome things</p>
           <ul>
-              <li class="fragment">checks if you forgot to git checkin any files</li>
+              <li class="fragment">checks if you forgot to check in any files</li>
               <li class="fragment">runs your tests</li>
               <li class="fragment">runs extra tests</li>
               <li class="fragment">generates a README.md from your pod</li>
               <li class="fragment">generates a META.json file for MetaCPAN.org</li>
               <li class="fragment">generates a BUILD.pl file for MetaCPAN.org</li>
               <li class="fragment">builds a distribution (tar.gz)</li>
-              <li class="fragment">uploads your distribution (tar.gz) to CPAN</li>
+              <li class="fragment">uploads your distribution (tar.gz) to CPAN using credentials from ~/.pause</li>
               <li class="fragment">tags your release in git</li>
               <li class="fragment">pushes your code to github</li>
           </ul>
@@ -261,29 +266,47 @@ carton exec minil release
 
 
         <section>
-            <h2>Quick summary: first release</h2>
-          <pre><code contenteditable>
-# install stuff
+            <h2>Quick summary of everything in this talk</h2>
+        </section>
+
+
+        <section>
+            <h2>Quick summary: Setup</h2>
+          <p class="fragment">Install stuff</p>
+          <pre class="fragment"><code contenteditable class="bash">
 cpanm Carton
 cpanm Minilla
+          </code></pre>
+          <p class="fragment">Add your pause credentials to ~/.pause</p>
+          <pre class="fragment"><code contenteditable class="bash">
+user &lt;YOUR-PAUSE-ID&gt;
+password &lt;your-password&gt;
+          </code></pre>
+        </section>
 
-# create new project
+
+        <section>
+            <h2>Quick summary: First release</h2>
+          <pre><code contenteditable class="bash">
+# create a new project with Minilla
 minil new Space::Cowboy
 cd Space-Cowboy
-git commit -m 'initial commit'
 
-# hack, hack, hack
-vi lib/Space/Cowboy.pm t/space-cowboy.t cpanfile
-git commit -a
+# write your code
+vi lib/Space/Cowboy.pm t/space-cowboy.t
+
+# manage your dependencies with Carton
+vi cpanfile                       
 
 # release
+git commit -a
 carton exec minil release
           </code></pre>
         </section>
 
 
         <section>
-            <h2>Quick summary: followup releases</h2>
+            <h2>Quick summary: Followup releases</h2>
           <pre><code contenteditable>
 # hack, hack, hack
 vi ...
